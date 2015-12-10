@@ -13,8 +13,10 @@ namespace SimpleTPCconsole
         {
             ImADumbTestClass iadtc = new ImADumbTestClass();
             TCPBody bytestream = new TCPBody();
-            bytestream.makeByteArray<ImADumbTestClass>(iadtc);
-
+            byte[] myByteStream = bytestream.makeByteArray<string>(iadtc.imADumbTestVariable);
+            TCPHeadder testy = new TCPHeadder();
+            testy.SizeOfDatagram = 6;
+            Console.WriteLine(Convert.ToString((4 << 4 ), 2).PadLeft(8, '0'));
 
 
             Console.ReadLine();

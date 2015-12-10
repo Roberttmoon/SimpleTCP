@@ -7,7 +7,7 @@ using System.Net;
 
 namespace SimpleTCP
 {
-    class TCPHeadder
+    public class TCPHeadder
     {
         //verson
         byte version;
@@ -36,12 +36,13 @@ namespace SimpleTCP
         //padding
         byte padding;
         //options ?
-        
+        byte[] newHead;
+        static public int Ipv4HeaderLength = 20;
 
         public TCPHeadder()
         {
-            version = 4;
-            headerLenght = (byte)Ipv4HeaderLength;    // Set the property so it will convert properly
+            this.version = 4;
+            headerLenght = (byte)Ipv4HeaderLength; 
             ipTypeOfService = 0;
             idintification = 0;
             ipOffset = 0;
@@ -53,48 +54,73 @@ namespace SimpleTCP
 
         }
 
-        public byte version
+        public byte Version
         {
-            get{
-                return version;
-            }
-            set{
-                version = value;
-
-            }
+            get{return version;}
+            set{version = value;}
         }
 
-        public byte headderLenght
+        public byte HeaderLenght
         {
-            get{
-                return (byte)headderLenght;
-            }
-            set{
-              headderLenght = (byte)(value/4);
-            }
+            get{return (byte)headerLenght;}
+            set{headerLenght = (byte)(value/4);}
         }
 
-        public byte ipTypeOfService
+        public byte IPTypeOfService
+        {
+            get{return ipTypeOfService;}
+            set {ipTypeOfService = value;}
+        }
+        public ulong SizeOfDatagram
+        {
+            get{return (ushort)IPAddress.NetworkToHostOrder((short)sizeOfDatagram);}
+            set{sizeOfDatagram = (ushort)IPAddress.HostToNetworkOrder((short)value);}
+        }
+        public ushort Idintification
         {
             get
-            {
-                return ipTypeOfService;
-            }
-            set
-            {
-                ipTypeOfService = value;
-            }
+            {return (ushort)IPAddress.NetworkToHostOrder((short)idintification);}
+            set{idintification = (ushort)IPAddress.HostToNetworkOrder((short)value);}
         }
-        public ulong sizeOfDatagram
+        public ushort IPOffset
         {
-            get
-            {
-                return (ushort)IPAddress.HostToNetworkOrder((short)ipTotalLen);
-            }
-            set
-            {
-                ipTotalLen = (ushort)IPAddress.HostToNetworkOrder((short)value);
-            }
+            get{return (ushort)IPAddress.NetworkToHostOrder((short)ipOffset);}
+            set{ipOffset = (ushort)IPAddress.HostToNetworkOrder((short)value);}
+        }
+        public byte TimeToLive
+        {
+            get{return timeToLive;}
+            set{timeToLive = value;}
+        }
+        public byte Protocal
+        {
+            get{return ipProtocol;}
+            set{ipProtocol = value;}
+        }
+        public ushort Checksum
+        {
+            get{return (ushort)IPAddress.NetworkToHostOrder((short)ipChecksum);}
+            set{ipChecksum = (ushort)IPAddress.HostToNetworkOrder((short)value);}
+        }
+        public IPAddress IPSourceAddress
+        {
+            get{ return ipSourceAddress; }
+            set { ipSourceAddress = value; }
+        }
+        public IPAddress IPDestAddress
+        {
+            get { return ipDestAddress; }
+            set { ipDestAddress = value; }
+        }
+
+        public static TCPHeadder create(byte[] packet, ref int bitsCopied)
+        {
+            TCPHeadder newHeader = new TCPHeadder();
+            newHeader.version = (byte)(4 << 4);
+            newHeader.headerLenght = (byte)Ipv4HeaderLength;
+            
+
+            return newHeader;
         }
     }
 }
