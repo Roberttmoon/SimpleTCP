@@ -13,11 +13,15 @@ namespace SimpleTPCconsole
         {
             ImADumbTestClass iadtc = new ImADumbTestClass();
             TCPBody bytestream = new TCPBody();
-            byte[] myByteStream = bytestream.makeByteArray<string>(iadtc.imADumbTestVariable);
-            TCPHeadder testy = new TCPHeadder();
+            byte[] myByteStream = bytestream.makeByteArray<ImADumbTestClass>(iadtc);
+            TCPIPHeadder testy = new TCPIPHeadder();
             testy.SizeOfDatagram = 6;
-            Console.WriteLine(Convert.ToString((4 << 4 ), 2).PadLeft(8, '0'));
+            Console.WriteLine(Convert.ToString(10202, 2).PadLeft(8, '0'));
 
+            int myNum = 15 << 6;
+            int myInt = 65535;
+            int myNewInt = myInt << 1;
+            Console.WriteLine(Convert.ToString(myNewInt, 2).PadLeft(32, '0'));
 
             Console.ReadLine();
 

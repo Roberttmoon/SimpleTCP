@@ -43,7 +43,8 @@
     <Compile Include="Checksumer.cs" />
     <Compile Include="TCPBody.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TCPHeadder.cs" />
+    <Compile Include="TCPHeader.cs" />
+    <Compile Include="TCPIPHeadder.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

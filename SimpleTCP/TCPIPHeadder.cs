@@ -7,13 +7,13 @@ using System.Net;
 
 namespace SimpleTCP
 {
-    public class TCPHeadder
+    public class TCPIPHeadder
     {
         //verson
         byte version;
         //IP header lenght
         byte headerLenght;
-        //type of serice
+        //type of serice               
         byte ipTypeOfService;
         //size of datagram
         ushort sizeOfDatagram;
@@ -37,9 +37,9 @@ namespace SimpleTCP
         byte padding;
         //options ?
         byte[] newHead;
-        static public int Ipv4HeaderLength = 20;
+        static public byte Ipv4HeaderLength = 20;
 
-        public TCPHeadder()
+        public TCPIPHeadder()
         {
             this.version = 4;
             headerLenght = (byte)Ipv4HeaderLength; 
@@ -113,11 +113,14 @@ namespace SimpleTCP
             set { ipDestAddress = value; }
         }
 
-        public static TCPHeadder create(byte[] packet, ref int bitsCopied)
+        public static TCPIPHeadder create(byte[] packet, ref int bitsCopied)
         {
-            TCPHeadder newHeader = new TCPHeadder();
+            TCPIPHeadder newHeader = new TCPIPHeadder();
             newHeader.version = (byte)(4 << 4);
             newHeader.headerLenght = (byte)Ipv4HeaderLength;
+            //byte topLine = newHeader.version & newHeader.headerLenght;
+
+
             
 
             return newHeader;
