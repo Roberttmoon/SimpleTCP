@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SimpleTCP;
+using System.Net;
 
 namespace SimpleTPCconsole
 {
@@ -11,19 +12,14 @@ namespace SimpleTPCconsole
     {
         static void Main(string[] args)
         {
-            ImADumbTestClass iadtc = new ImADumbTestClass();
-            TCPBody bytestream = new TCPBody();
-            byte[] myByteStream = bytestream.makeByteArray<ImADumbTestClass>(iadtc);
-            TCPIPHeadder testy = new TCPIPHeadder();
-            testy.SizeOfDatagram = 6;
-            Console.WriteLine(Convert.ToString(10202, 2).PadLeft(8, '0'));
+            TCPIPHeadder ipv4headder =  TCPIPHeadder.create();
+            ipv4headder.makeVerLenTosHeadLen(4, 4, 4, 4, ref ipv4headder.verLenTosHeadLen);
+            ipv4headder.makeIdentFlagOffset(4, 4, 4, ref ipv4headder.identFlagOffset);
+            ipv4headder.makeTtlProtocalChecksum(4, 4, ref ipv4headder.ttlProtocalChecksum);
+            ipv4headder.IPSourceAddress = IPAddress.Parse("10.0.2.20");
+            ipv4headder.IPDestAddress = IPAddress.Parse("10.0.2.20");
+            ipv4headder.makeOptPadding(43, ref ipv4headder.padding, ref ipv4headder.optPadding);
 
-            int myNum = 15 << 6;
-            int myInt = 65535;
-            int myNewInt = myInt << 1;
-            Console.WriteLine(Convert.ToString(myNewInt, 2).PadLeft(32, '0'));
-
-            Console.ReadLine();
 
         }
     }
